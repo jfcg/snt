@@ -22,7 +22,6 @@ func Lspr(n uint32) (P []uint32) {
 	P = append(P, 2, 3, 5, 7)
 	var p2, q, r uint32 = 25, 11, 2 // P[k]^2, candidate, increment
 
-out:
 	for k := 2; q < n; q, r = q+r, r^6 {
 		if p2 > n || p2 < q { // guard against p2 overflow
 			p2 = n
@@ -31,7 +30,7 @@ out:
 	nextq:
 		for ; q < p2; q, r = q+r, r^6 { // avoid (multiples of) 2,3
 			if q>>3 == 0 { // guard against q overflow
-				break out
+				return
 			}
 
 			for i := 2; i < k; i++ {

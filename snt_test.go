@@ -45,7 +45,7 @@ func same(a, b []uint32) bool {
 func Test2(t *testing.T) {
 	st := uint32(0)
 	for i, p := range pl {
-		for n := st; st <= n && n <= p; n++ {
+		for n := st; n <= p; n++ {
 			if !same(pl[:i], Lspr(n)) {
 				t.Fatal("Wrong prime list for", n)
 			}

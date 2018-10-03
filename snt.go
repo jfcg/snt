@@ -20,21 +20,21 @@ func Lspr(n uint32) (P []uint32) {
 
 	// P(k-1)^2 < q < P(k)^2 is prime if not divisible by primes P(0..k-1)
 	P = append(P, 2, 3, 5, 7)
-	var p2, q, r uint32 = 25, 11, 2 // P[k]^2, candidate, increment
+	var p2, q, r uint32 = 49, 11, 1176912450 // P[k]^2, candidate, increment list 2,4,2,4,6,2,6,4
 
-	for k := 2; q < n; q, r = q+r, r^6 {
+	for k := 3; q < n; q, r = q+r&7, r>>4^r<<28 {
 		if p2 > n || p2 < q { // guard against p2 overflow
 			p2 = n
 		}
 
 	nextq:
-		for ; q < p2; q, r = q+r, r^6 { // avoid (multiples of) 2,3
+		for ; q < p2; q, r = q+r&7, r>>4^r<<28 { // avoid (multiples of) 2,3,5
 			if q>>3 == 0 { // guard against q overflow
 				return
 			}
 
-			for i := 2; i < k; i++ {
-				if q%P[i] == 0 { // try candidates < p2 with P[2:k]
+			for i := 3; i < k; i++ {
+				if q%P[i] == 0 { // try candidates < p2 with P[3:k]
 					continue nextq
 				}
 			}

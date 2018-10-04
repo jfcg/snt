@@ -9,8 +9,15 @@ import (
 
 func Test1(t *testing.T) {
 	var x, y big.Int
-	for b := uint64(1); b <= 999; b += 2 {
-		for a := int64(-999); a <= 999; a++ {
+	for a := int64(-999); a <= 999; a++ {
+		for b := uint64(1); b <= 999; b++ {
+			if b&1 == 0 {
+				if Jacobi(a, b) != 2 {
+					t.Fatal("Bad return for", a, b)
+				}
+				continue
+			}
+
 			x.SetInt64(a)
 			y.SetUint64(b)
 			if Jacobi(a, b) != big.Jacobi(&x, &y) {

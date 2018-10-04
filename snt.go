@@ -47,10 +47,10 @@ func Lspr(n uint32) (P []uint32) {
 	return
 }
 
-// Calculates Jacobi(c/b), panics if b is even
+// Calculates Jacobi(c/b), returns 2 for even b
 func Jacobi(c int64, b uint64) int {
 	if b&1 == 0 {
-		panic("Even b")
+		return 2
 	}
 	if b == 1 {
 		return 1

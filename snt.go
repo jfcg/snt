@@ -23,7 +23,7 @@ func Lspr(n uint32) (P []uint32) {
 	var p2, q, r uint32 = 49, 11, 1176912450 // P[k]^2, candidate, increment list 2,4,2,4,6,2,6,4
 
 	for k := 3; q < n; q, r = q+r&7, r>>4^r<<28 {
-		if p2 > n || p2 < q { // guard against p2 overflow
+		if !(q < p2 && p2 <= n) { // guard against p2 overflow
 			p2 = n
 		}
 

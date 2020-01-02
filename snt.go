@@ -1,11 +1,13 @@
-/*	Small Number Theory Library
-
-	Author: Serhat Sevki Dincer, jfcgaussATgmail
+/*	Copyright (c) 2020, Serhat Şevki Dinçer.
+	This Source Code Form is subject to the terms of the Mozilla Public
+	License, v. 2.0. If a copy of the MPL was not distributed with this
+	file, You can obtain one at http://mozilla.org/MPL/2.0/.
 */
 
+// Package snt is a small number theory library
 package snt
 
-// Returns list of primes less than n
+// Lspr returns list of primes less than n
 func Lspr(n uint32) (P []uint32) {
 	if n < 10 {
 		if n < 3 {
@@ -20,7 +22,9 @@ func Lspr(n uint32) (P []uint32) {
 
 	// P(k-1)^2 < q < P(k)^2 is prime if not divisible by primes P(0..k-1)
 	P = append(P, 2, 3, 5, 7)
-	var p2, q, r uint32 = 49, 11, 1176912450 // P[k]^2, candidate, increment list 2,4,2,4,6,2,6,4
+
+	// P[k]^2, candidate, increment list 2,4,2,4,6,2,6,4
+	var p2, q, r uint32 = 49, 11, 1176912450
 
 	for k := 3; q < n; q, r = q+r&7, r>>4^r<<28 {
 		if !(q < p2 && p2 <= n) { // guard against p2 overflow
@@ -47,7 +51,7 @@ func Lspr(n uint32) (P []uint32) {
 	return
 }
 
-// Calculates Jacobi(c/b), returns 2 for even b
+// Jacobi calculates jacobi(c/b), returns 2 for even b
 func Jacobi(c int64, b uint64) int {
 	if b&1 == 0 {
 		return 2

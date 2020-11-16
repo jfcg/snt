@@ -24,29 +24,36 @@ func Lspr(n uint32) (P []uint32) {
 	P = append(P, 2, 3, 5, 7)
 
 	// P[k]^2, candidate, increment list 2,4,2,4,6,2,6,4
-	var p2, q, r uint32 = 49, 11, 1176912450
+	var p2, q, r uint32 = 0, 11, 1176912450
 
-	for k := 3; q < n; q, r = q+r&7, r>>4^r<<28 {
+	for k := 2; q < n; {
+		k++
+		p2 = P[k] * P[k]
+
 		if !(q < p2 && p2 <= n) { // guard against p2 overflow
 			p2 = n
 		}
 
-	nextq:
-		for ; q < p2; q, r = q+r&7, r>>4^r<<28 { // avoid (multiples of) 2,3,5
+		for q < p2 {
 			if q>>3 == 0 { // guard against q overflow
 				return
 			}
 
 			for i := 3; i < k; i++ {
 				if q%P[i] == 0 { // try candidates < p2 with P[3:k]
-					continue nextq
+					goto next
 				}
 			}
 			P = append(P, q)
-		} // here q=p2
 
-		k++
-		p2 = P[k] * P[k]
+		next:
+			q += r & 7 // avoid multiples of 2,3,5 as candidate
+			r = r>>4 ^ r<<28
+		}
+		// q is prime square here
+
+		q += r & 7
+		r = r>>4 ^ r<<28
 	}
 	return
 }

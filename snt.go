@@ -35,27 +35,25 @@ func Primes(n uint32) (P []uint32) {
 		if !(q < p2 && p2 <= n) { // guard against p2 overflow
 			p2 = n
 		}
-
-		for q < p2 {
-			if q>>3 == 0 { // guard against q overflow
-				return
+	inner:
+		for i := 3; i < k; i++ {
+			if q%P[i] == 0 { // try candidates < p2 with P[3:k]
+				goto next
 			}
-
-			for i := 3; i < k; i++ {
-				if q%P[i] == 0 { // try candidates < p2 with P[3:k]
-					goto next
-				}
-			}
-			P = append(P, q)
-
-		next:
-			q += r & 7 // avoid multiples of 2,3,5 as candidate
-			r = r>>4 ^ r<<28
 		}
-		// q is prime square here
-
-		q += r & 7
+		P = append(P, q)
+	next:
+		q += r & 7 // avoid multiples of 2,3,5 as candidate
+		if q < 4 { // guard against q overflow
+			return
+		}
 		r = r>>4 ^ r<<28
+		if q < p2 {
+			goto inner
+		}
+		if q == p2 {
+			goto next
+		}
 	}
 	return
 }

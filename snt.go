@@ -7,8 +7,10 @@
 // Package snt is a small number theory library
 package snt
 
-// Lspr returns list of primes less than n
-func Lspr(n uint32) (P []uint32) {
+// Primes returns list of primes less than n
+//
+//go:nosplit
+func Primes(n uint32) (P []uint32) {
 	if n < 10 {
 		if n < 3 {
 			return
@@ -59,6 +61,8 @@ func Lspr(n uint32) (P []uint32) {
 }
 
 // Jacobi calculates jacobi(c/b), returns 2 for even b
+//
+//go:nosplit
 func Jacobi(c int64, b uint64) int {
 	if b&1 == 0 {
 		return 2

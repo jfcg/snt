@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func Test1(t *testing.T) {
+func TestJacobi(t *testing.T) {
 	var x, y big.Int
 	for a := int64(-999); a <= 999; a++ {
 		for b := uint64(1); b <= 999; b++ {
@@ -31,7 +31,7 @@ func Test1(t *testing.T) {
 	}
 }
 
-var pl = [...]uint32{
+var prime = [...]uint32{
 	2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79,
 	83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151, 157, 163, 167,
 	173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 257, 263,
@@ -47,7 +47,6 @@ func same(a, b []uint32) bool {
 	if len(a) != len(b) {
 		return false
 	}
-
 	for i := len(a) - 1; i >= 0; i-- {
 		if a[i] != b[i] {
 			return false
@@ -56,11 +55,11 @@ func same(a, b []uint32) bool {
 	return true
 }
 
-func Test2(t *testing.T) {
-	n := uint32(0)
-	for i, p := range pl {
+func TestPrimes(t *testing.T) {
+	var n uint32
+	for i, p := range prime {
 		for ; n <= p; n++ {
-			if !same(pl[:i], Lspr(n)) {
+			if !same(prime[:i], Primes(n)) {
 				t.Fatal("Wrong prime list for", n)
 			}
 		}
